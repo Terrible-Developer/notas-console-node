@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const fs = require('fs');
 const yargs = require('yargs');
 
 yargs.version('1.0.1');
@@ -12,14 +13,21 @@ yargs.command({
             demandOption: true,
             type: 'string'
         },
-        corpo: {
-            describe: 'Corpo da anotação',
+        conteudo: {
+            describe: 'Conteúdo da anotação',
             demandOption: true,
             type: 'string'
         }
     },
     handler: function(argv){
-        console.log('+1 nota \nTítulo: ' + argv.titulo + '\nCorpo: ' + argv.corpo);
+        //console.log('+1 nota \nTítulo: ' + argv.titulo + '\nCorpo: ' + argv.corpo);
+        const dados = {
+            titulo: argv.titulo,
+            conteudo: argv.conteudo
+        };
+        const dadosJson = JSON.stringify(dados);
+        //console.log(dados.titulo + ' ' + dados.conteudo + '\n' + dadosJson);
+        fs.writeFileSync(`${dados.titulo}.json`, dadosJson);
     }
 });
 yargs.command({
