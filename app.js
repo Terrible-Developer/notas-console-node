@@ -9,7 +9,7 @@ yargs.command({
     describe: 'Adicionar nova anotação',
     builder: {
         titulo:{
-            describe: 'Título da anotação',
+            describe: 'Título da anotação à ser adicionada',
             demandOption: true,
             type: 'string'
         },
@@ -21,21 +21,20 @@ yargs.command({
     },
     handler: function(argv){
         anotacoes.inserirAnotacao(argv.titulo, argv.conteudo);
-        // console.log('+1 nota \nTítulo: ' + argv.titulo + '\nCorpo: ' + argv.corpo);
-        // const dados = {
-        //     titulo: argv.titulo,
-        //     conteudo: argv.conteudo
-        // };
-        // const dadosJson = JSON.stringify(dados);
-        // console.log(dados.titulo + ' ' + dados.conteudo + '\n' + dadosJson);
-        // fs.writeFileSync(`${dados.titulo}.json`, dadosJson);
     }
 });
 yargs.command({
     command: 'remover',
     describe: 'Removar anotação',
-    handler: function(){
-        console.log('-1 nota');
+    builder: {
+        titulo:{
+            describe: 'Titulo da anotação à ser removida',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function(argv){
+        anotacoes.removerAnotacao(argv.titulo);
     }
 });
 yargs.command({
