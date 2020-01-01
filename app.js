@@ -41,7 +41,7 @@ yargs.command({
     command: 'listar',
     describe: 'Listar anotações salvas',
     handler: function(){
-        console.log('sei contar até M');
+        anotacoes.listarAnotacoes('nomearquivo.json');
     }
 });
 yargs.command({
@@ -49,13 +49,13 @@ yargs.command({
     describe: 'Ler uma anotação salva',
     builder:{
         titulo:{
-            describe: 'Título da anotação',
+            describe: 'Título da anotação à ser lida',
             demandOption: true,
             type: 'string'
         }
     },
     handler: function(argv){
-        const anotacao = anotacoes.carregarAnotacoes(argv.titulo);
+        const anotacao = anotacoes.lerAnotacao(argv.titulo);
         console.log(anotacao);
     }
 });
