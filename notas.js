@@ -1,9 +1,6 @@
 const fs = require('fs');
 
-const lerAnotacao = function(){
-    return 'Anotação';
-}
-const inserirAnotacao = function(titulo, conteudo){ //titulo, conteudo
+const inserirAnotacao = function(titulo, conteudo){
     const anotacoes = carregarAnotacoes(titulo);
     const duplicadas = anotacoes.filter(function(anotacao){
         return anotacao.titulo === titulo;
@@ -47,6 +44,28 @@ const removerAnotacao = function(titulo){
     }
 }
 
+//ideia pra melhora: se for implementada a possibilidade de criar um arquivo específico pra cada anotação e o título dela ser o título do
+//arquivo, deixar todas dentro de uma pasta "anotações" e ler todos os nomes de arquivos dentro para listar
+const listarAnotacoes = function(titulo){
+    const dados = carregarAnotacoes(titulo);
+    let ct = 0;
+    for(anotacao in dados){
+        console.log(dados[ct].titulo);
+        ct++;
+    }
+}
+
+const lerAnotacao = function(titulo){
+    const anotacoes = carregarAnotacoes(titulo);
+    const anotacaoL = anotacoes.filter(anotacao => anotacao.titulo === titulo);
+    if(anotacaoL.length > 0){
+        return anotacaoL;
+    }
+    else{
+        return 'Não existe nenhuma anotação com o título inserido.';
+    }
+}
+
 const carregarAnotacoes = function(titulo){
     try{
         const buffer = fs.readFileSync('nomearquivo.json');
@@ -63,7 +82,9 @@ module.exports = {
     lerAnotacao: lerAnotacao,
     inserirAnotacao: inserirAnotacao,
     carregarAnotacoes: carregarAnotacoes,
-    removerAnotacao: removerAnotacao
+    removerAnotacao: removerAnotacao,
+    listarAnotacoes: listarAnotacoes,
+    lerAnotacao: lerAnotacao
 }
 
 
