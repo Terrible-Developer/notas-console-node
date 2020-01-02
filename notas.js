@@ -41,15 +41,6 @@ const removerAnotacao = function(titulo){
         else{
             console.log('Não existe nenhuma anotação com este título.');
         }
-        // if(anotacoes.includes(titulo)){
-        //     delete anotacoes;
-        //     console.log('Anotação deletada com sucesso.');
-        // }
-        // else{
-        //     console.log('Nenhuma anotação existe com este título.');
-        // }
-        //console.log(anotacoes[`${titulo}`]);
-        //console.log(`Anotação ${titulo} deletada`); //delete anotacoes[`${titulo}`];
     }
     catch(e){
         console.log('Não existe nenhuma anotação com este título.');
