@@ -1,5 +1,7 @@
 const fs = require('fs');
+const chalk = require('chalk');
 
+//Cria uma nova anotação
 const inserirAnotacao = function(titulo, conteudo){
     const anotacoes = carregarAnotacoes(titulo);
     const duplicadas = anotacoes.filter(function(anotacao){
@@ -11,18 +13,18 @@ const inserirAnotacao = function(titulo, conteudo){
             conteudo: conteudo
         });
         salvarAnotacoes(anotacoes);
-        console.log('Anotação salva com sucesso!');
+        console.log(chalk.green.inverse('Anotação salva com sucesso!'));
     }
     else{
-        console.log('O título da anotação já existe! \nPor favor, insira outro título.');
+        console.log(chalk.red.inverse('O título da anotação já existe! \nPor favor, insira outro título.'));
     }
 }
-
+//Salva uma anotação ao arquivo
 const salvarAnotacoes = function(anotacoes){
     const anJson = JSON.stringify(anotacoes);
-    fs.writeFileSync('nomearquivo.json', anJson);
+    fs.writeFileSync('anotacoes.json', anJson);
 }
-
+//Remove uma anotação salva
 const removerAnotacao = function(titulo){
     const anotacoes = carregarAnotacoes(titulo);
     const checarTitulo = anotacoes.filter(function(anotacao){
@@ -32,20 +34,21 @@ const removerAnotacao = function(titulo){
         if(checarTitulo.length > 0){
             const anotacoesAposRemocao = anotacoes.filter(anotacao => anotacao.titulo !== titulo);
             const jsonAnotacoes = JSON.stringify(anotacoesAposRemocao);
-            fs.writeFileSync('nomearquivo.json',jsonAnotacoes);
-            console.log('Anotação removida com sucesso.');
+            fs.writeFileSync('anotacoes.json',jsonAnotacoes);
+            console.log(chalk.green.inverse(('Anotação removida com sucesso.')));
         }
         else{
-            console.log('Não existe nenhuma anotação com este título.');
+            console.log(chalk.red.inverse('Não existe nenhuma anotação com este título.'));
         }
     }
     catch(e){
-        console.log('Não existe nenhuma anotação com este título.');
+        throw new Error('Houve um erro ao tentar remover esta anotação.');
     }
 }
 
 //ideia pra melhora: se for implementada a possibilidade de criar um arquivo específico pra cada anotação e o título dela ser o título do
 //arquivo, deixar todas dentro de uma pasta "anotações" e ler todos os nomes de arquivos dentro para listar
+//Lista as anotações salvas
 const listarAnotacoes = function(titulo){
     const dados = carregarAnotacoes(titulo);
     let ct = 0;
@@ -53,8 +56,11 @@ const listarAnotacoes = function(titulo){
         console.log(dados[ct].titulo);
         ct++;
     }
+    if(ct === 0){
+        console.log(chalk.red.inverse('Não há nenhuma anotação salva.'));
+    }
 }
-
+//Lê uma anotação específica à partir de seu título.
 const lerAnotacao = function(titulo){
     const anotacoes = carregarAnotacoes(titulo);
     const anotacaoL = anotacoes.filter(anotacao => anotacao.titulo === titulo);
@@ -62,13 +68,13 @@ const lerAnotacao = function(titulo){
         return anotacaoL;
     }
     else{
-        return 'Não existe nenhuma anotação com o título inserido.';
+        return chalk.red.inverse('Não existe nenhuma anotação com o título inserido.');
     }
 }
-
+//Carrega todas as anotações existentes no arquivo
 const carregarAnotacoes = function(titulo){
     try{
-        const buffer = fs.readFileSync('nomearquivo.json');
+        const buffer = fs.readFileSync('anotacoes.json');
         const dadosJson = buffer.toString();
         return JSON.parse(dadosJson);
     }
@@ -77,7 +83,7 @@ const carregarAnotacoes = function(titulo){
     }
 }
 
-
+//Exporta um objeto com os métodos
 module.exports = {
     lerAnotacao: lerAnotacao,
     inserirAnotacao: inserirAnotacao,

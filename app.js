@@ -3,7 +3,8 @@ const yargs = require('yargs');
 const anotacoes = require('./notas.js');
 
 yargs.version('1.0.1');
-//console.log(yargs.argv);
+
+//Comando para adicionar anotações
 yargs.command({
     command: 'adicionar',
     describe: 'Adicionar nova anotação',
@@ -23,6 +24,7 @@ yargs.command({
         anotacoes.inserirAnotacao(argv.titulo, argv.conteudo);
     }
 });
+//Comando para remover anotações
 yargs.command({
     command: 'remover',
     describe: 'Removar anotação',
@@ -37,13 +39,15 @@ yargs.command({
         anotacoes.removerAnotacao(argv.titulo);
     }
 });
+//Comando para listar anotações
 yargs.command({
     command: 'listar',
     describe: 'Listar anotações salvas',
     handler: function(){
-        anotacoes.listarAnotacoes('nomearquivo.json');
+        anotacoes.listarAnotacoes('anotacoes.json');
     }
 });
+//Comando para ler anotações
 yargs.command({
     command: 'ler',
     describe: 'Ler uma anotação salva',
